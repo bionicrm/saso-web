@@ -1,0 +1,7 @@
+---
+# vcs
+- include: git.yml
+
+- include: extras.yml
+
+- include: ruby.yml

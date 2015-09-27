@@ -1,0 +1,58 @@
+---
+- name: download Redis
+  get_url:
+    url=http://download.redis.io/redis-stable.tar.gz
+    dest="{{ redis.dl.file }}"
+  sudo: no
+  register: redis_download
+
+- name: unzip Redis
+  unarchive:
+    src="{{ redis.dl.file }}" copy=no
+    dest="{{ dl.dir }}"
+  sudo: no
+
+- name: install Redis depends
+  apt: name={{ item }} state=present
+  with_items:
+    - tcl
+
+- name: make Redis
+  command: make
+  args:
+    chdir: "{{ redis.dl.dir }}"
+  sudo: no
+  when: redis_download.changed
+
+- name: install Redis
+  command: make install
+  args:
+    chdir: "{{ redis.dl.dir }}"
+    creates: /usr/local/bin/redis-server
+  register: redis_install
+
+- name: create Redis directories
+  file: path={{ item }} state=directory
+  with_items:
+    - "{{ redis.etc.dir }}"
+    - "{{ redis.var.dir }}/{{ redis.port }}"
+
+- name: copy Redis files
+  template:
+    src="{{ item.src }}"
+    dest="{{ item.dest }}"
+  with_items:
+    - { src: redis-init.j2, dest: "{{ redis.init.file }}" }
+    - { src: redis.conf.j2, dest: "{{ redis.config.file }}" }
+  register: redis_files
+
+- name: make Redis init file executable
+  file: path="{{ redis.init.file }}" mode=u+x
+
+- name: update-rc.d for Redis
+  command: update-rc.d redis_{{ redis.port }} defaults
+  when: redis_files.changed
+
+- name: start Redis
+  command: "{{ redis.init.file }} start"
+  when: redis_install.changed

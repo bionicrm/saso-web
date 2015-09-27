@@ -1,0 +1,55 @@
+---
+- name: remove default Ruby packages
+  apt: name={{ item }} state=absent
+  with_items:
+    - ruby
+    - ruby1.9.1
+
+- name: clone rbenv
+  git:
+    repo=https://github.com/sstephenson/rbenv.git clone=yes
+    dest="{{ rbenv.dir }}"
+  sudo: no
+
+- name: add rbenv to path
+  lineinfile:
+    line="export PATH=\"{{ rbenv.dir }}/bin:$PATH\"" state=present
+    dest="{{ bashrc }}"
+
+- name: add `rbenv init` to shell
+  lineinfile:
+    line="eval \"$(rbenv init -)\"" state=present
+    dest="{{ bashrc }}"
+
+- name: clone ruby-build
+  git:
+    repo=https://github.com/sstephenson/ruby-build.git clone=yes
+    dest="{{ rbenv.dir }}/plugins/ruby-build"
+  sudo: no
+
+- name: install Ruby build-depends
+  apt: name={{ item }} state=present
+  with_items:
+    - autoconf
+    - bison
+    - build-essential
+    - libssl-dev
+    - libyaml-dev
+    - libreadline6-dev
+    - zlib1g-dev
+    - libncurses5-dev
+    - libffi-dev
+    - libgdbm3
+    - libgdbm-dev
+
+- name: install Ruby
+  command: "{{ rbenv.dir }}/bin/rbenv install {{ ruby.version }}"
+  args:
+    creates: "{{ rbenv.dir }}/versions/{{ ruby.version }}"
+  sudo: no
+
+- name: set global Ruby
+  command: "{{ rbenv.dir }}/bin/rbenv global {{ ruby.version }}"
+  args:
+    creates: "{{ rbenv.dir }}/version"
+  sudo: no

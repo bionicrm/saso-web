@@ -1,0 +1,12 @@
+---
+- name: install MySQL
+  apt: name=mysql-server state=present
+
+- name: install Ansible mysql_db depends
+  apt: name=python-mysqldb state=present
+
+- name: create app database
+  mysql_db:
+    name=app state=present
+    collation=utf8_unicode_ci
+    encoding=utf8

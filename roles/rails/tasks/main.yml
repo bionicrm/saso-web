@@ -1,0 +1,7 @@
+---
+- include: env.yml
+
+# Ruby gems
+- include: gems.yml
+  tags:
+    - bundle

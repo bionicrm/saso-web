@@ -1,0 +1,18 @@
+---
+- hosts: all
+  sudo: yes
+  vars:
+    bashrc: "{{ vm.dir }}/.bashrc"
+    rbenv:
+      dir: "{{ vm.dir }}/.rbenv"
+    dl:
+      dir: "{{ vm.dir }}/dl"
+  pre_tasks:
+    - name: update apt cache
+      apt: update_cache=yes
+  roles:
+    - { role: boot, tags: ['boot'] }
+    - common
+    - storage
+    - rails
+    - server

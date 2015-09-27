@@ -1,0 +1,25 @@
+---
+- name: install nginx
+  apt: name=nginx state=present
+
+- name: remove default nginx sites
+  file: path=/etc/nginx/{{ item }} state=absent
+  with_items:
+    - sites-enabled/default
+    - sites-available/default
+  notify:
+    - reload nginx
+
+- name: copy nginx site
+  template:
+    src=nginx.j2
+    dest=/etc/nginx/sites-available/app
+  notify:
+    - reload nginx
+
+- name: link nginx site
+  file:
+    src=/etc/nginx/sites-available/app state=link
+    dest=/etc/nginx/sites-enabled/app
+  notify:
+    - reload nginx

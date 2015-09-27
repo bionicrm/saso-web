@@ -1,0 +1,6 @@
+---
+# db
+- include: mysql.yml
+
+# redis
+- include: redis.yml

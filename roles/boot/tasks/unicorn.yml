@@ -1,0 +1,5 @@
+---
+- name: start unicorn
+  command: "{{ rbenv.dir }}/shims/bundler exec {{ rbenv.dir }}/shims/unicorn -c {{ app.dir }}/config/unicorn.rb -E development -D"
+  args:
+    chdir: "{{ app.dir }}"

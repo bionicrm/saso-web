@@ -1,0 +1,33 @@
+---
+- name: install system gems
+  gem:
+    name={{ item }} state=present
+    executable="{{ ruby.gem }}"
+    user_install=no
+  with_items:
+    - rails
+    - bundler
+  sudo: no
+
+- name: install app gem build-depends
+  apt: name={{ item }} state=present
+  with_items:
+    - libmysqlclient-dev
+
+- name: check app gems presence
+  command: "{{ ruby.bundler }} check"
+  args:
+    chdir: "{{ app.dir }}"
+  sudo: no
+  changed_when: false
+  # the check errors when there's missing dependencies... ignore because we'll
+  # install them later if needed
+  ignore_errors: yes
+  register: bundler_check
+
+- name: install app gems
+  command: "{{ ruby.bundler }} install"
+  args:
+    chdir: "{{ app.dir }}"
+  when: bundler_check|failed
+  sudo: no
