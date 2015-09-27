@@ -6,7 +6,7 @@ ansible_verbose = true
 
 # when true, provisioning the VM will only install missing app gems via
 # Bundler
-only_bundle_on_provision = false
+only_bundle_on_provision = true
 
 # -------
 
