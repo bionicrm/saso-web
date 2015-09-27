@@ -2,7 +2,7 @@
 - name: install MySQL
   apt: name=mysql-server state=present
 
-- name: install Ansible mysql_db depends
+- name: install Ansible mysql_db depend
   apt: name=python-mysqldb state=present
 
 - name: create app database

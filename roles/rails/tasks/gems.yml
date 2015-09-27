@@ -2,7 +2,7 @@
 - name: install system gems
   gem:
     name={{ item }} state=present
-    executable="{{ ruby.gem }}"
+    executable="{{ rbenv.shims }}/gem"
     user_install=no
   with_items:
     - rails
@@ -11,11 +11,12 @@
 
 - name: install app gem build-depends
   apt: name={{ item }} state=present
+  # add gem dependencies to this list if needed:
   with_items:
     - libmysqlclient-dev
 
 - name: check app gems presence
-  command: "{{ ruby.bundler }} check"
+  command: "{{ rbenv.shims }}/bundler check"
   args:
     chdir: "{{ app.dir }}"
   sudo: no
@@ -24,10 +25,14 @@
   # install them later if needed
   ignore_errors: yes
   register: bundler_check
+  tags:
+    - bundle
 
 - name: install app gems
-  command: "{{ ruby.bundler }} install"
+  command: "{{ rbenv.shims }}/bundler install"
   args:
     chdir: "{{ app.dir }}"
-  when: bundler_check|failed
   sudo: no
+  when: bundler_check|failed
+  tags:
+    - bundle

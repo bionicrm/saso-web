@@ -7,3 +7,9 @@
 - name: make ~/dl directory
   file: path="{{ dl.dir }}" state=directory
   sudo: no
+
+- name: copy serve script
+  template:
+    src=serve.sh
+    dest=/usr/local/bin/serve
+    owner="{{ ssh_user }}" group="{{ ssh_user }}" mode=u+x

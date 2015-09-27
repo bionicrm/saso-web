@@ -1,4 +1,0 @@
----
-ruby:
-  bundler: "{{ rbenv.dir }}/shims/bundler"
-  gem: "{{ rbenv.dir }}/shims/gem"

@@ -1,16 +1,3 @@
 ---
 redis:
   port: 6379
-  var:
-    dir: /var/redis
-  etc:
-    dir: /etc/redis
-  dl:
-    dir: "{{ dl.dir }}/redis-stable"
-    file: "{{ dl.dir }}/redis.tar.gz"
-  init:
-    # keep "/redis_<port>" in sync with {{ redis.port }}!
-    file: /etc/init.d/redis_6379
-  config:
-    # keep "/<port>.conf" in sync with {{ redis.port }}!
-    file: /etc/redis/6379.conf
