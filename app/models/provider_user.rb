@@ -35,6 +35,9 @@ class ProviderUser < ActiveRecord::Base
         user = provider_user.user
 
         # update provider_user's user details
+        # FIXME: we don't want to update the details if the provider used to
+        # login is different from the original (using Twitter, for example,
+        # would remove the email all together because we don't have access)
         user.name = hash_name
         user.email = hash_email
 
