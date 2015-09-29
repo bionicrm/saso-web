@@ -22,11 +22,22 @@
               <% end %>
             </ul>
 
+            <ul>
+              <% get_unconnected_providers.each do |provider| %>
+                  <li><%= link_to 'Connect to ' + provider.name, '/auth/' + provider.name %></li>
+              <% end %>
+            </ul>
+
             <%= link_to 'Logout', '/logout' %>
         <% else %>
 
-        <%= link_to 'GitHub', '/auth/github' %>
-        <%= link_to 'Google', '/auth/google' %>
+        <h2>Login with:</h2>
+
+        <ul>
+          <% Provider.all.each do |provider| %>
+              <li><%= link_to provider.name, '/auth/' + provider.name %></li>
+          <% end %>
+        </ul>
 
         <% end %>
 

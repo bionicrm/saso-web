@@ -5,10 +5,15 @@ class ApplicationController < ActionController::Base
 
   private
 
-  # @type [User]
+  # @return [User]
   def user
     @user ||= User.find_by id: session[:user_id]
   end
 
+  def get_unconnected_providers
+    Provider.where('id NOT IN (?)', user.providers.pluck(:id)).all
+  end
+
   helper_method :user
+  helper_method :get_unconnected_providers
 end

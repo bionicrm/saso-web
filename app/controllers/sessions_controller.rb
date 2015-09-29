@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
   def create
-    @user = ProviderUser.find_or_create_from_auth_hash!(auth_hash).user
+    @user = ProviderUser.find_or_create_from_auth_hash!(auth_hash, session).user
 
     session[:user_id] = @user.id
 

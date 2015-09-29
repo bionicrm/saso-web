@@ -3,7 +3,7 @@ class ProviderUser < ActiveRecord::Base
   belongs_to :provider
 
   class << self
-    def find_or_create_from_auth_hash!(auth_hash)
+    def find_or_create_from_auth_hash!(auth_hash, session)
       # @type [Provider]
       provider = Provider.find_or_create_by name: auth_hash[:provider]
 
@@ -18,9 +18,11 @@ class ProviderUser < ActiveRecord::Base
       hash_refresh_token = auth_hash[:credentials][:secret] || auth_hash[:credentials][:refresh_token]
 
       if provider_user.new_record?
-        # create new user
-        user = User.create name: hash_name,
-                           email: hash_email
+        # use currently logged in user or create new one
+        user = User.find_by id: session[:user_id] if session[:user_id]
+
+        user ||= User.create(name: hash_name,
+                             email: hash_email)
 
         # set new provider_user details
         provider_user.user = user

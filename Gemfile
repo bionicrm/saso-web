@@ -35,6 +35,8 @@ gem 'redis'
 # OmniAuth
 gem 'omniauth-github'
 gem 'omniauth-google-oauth2'
+gem 'omniauth-twitter'
+gem 'omniauth-digitalocean'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
