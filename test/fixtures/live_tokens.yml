@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 
+  token: MyString
+  ip: 
+  is_active: false
+  is_used: false
+
+two:
+  user_id: 
+  token: MyString
+  ip: 
+  is_active: false
+  is_used: false

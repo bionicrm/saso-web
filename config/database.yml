@@ -14,7 +14,7 @@ default: &default
   encoding: utf8
   pool: 5
   host: localhost
-  username: root
+  username: vagrant
   password:
   socket: /var/run/mysqld/mysqld.sock
 

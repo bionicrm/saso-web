@@ -11,6 +11,25 @@
     </head>
 
     <body>
+        <% if user %>
+            <p>
+              Logged in as <%= user.name %> &lt;<%= user.email %>&gt; via
+            </p>
+
+            <ul>
+              <% user.providers.each do |provider| %>
+                  <li><%= provider.name %></li>
+              <% end %>
+            </ul>
+
+            <%= link_to 'Logout', '/logout' %>
+        <% else %>
+
+        <%= link_to 'GitHub', '/auth/github' %>
+        <%= link_to 'Google', '/auth/google' %>
+
+        <% end %>
+
         <%= yield %>
 
         <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>

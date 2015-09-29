@@ -10,3 +10,31 @@
     name=app state=present
     collation=utf8_unicode_ci
     encoding=utf8
+
+- name: set MySQL bind-address
+  replace:
+    dest=/etc/mysql/my.cnf
+    regexp="^bind-address "
+    replace="bind-address = 0.0.0.0"
+  notify:
+    - reload mysql
+
+- name: add MySQL localhost user
+  mysql_user:
+    name=vagrant
+    host=localhost
+    password=""
+    priv=*.*:ALL,GRANT
+    state=present
+  notify:
+    - reload mysql
+
+- name: add MySQL all hosts user
+  mysql_user:
+    name=vagrant
+    host="%"
+    password=""
+    priv=*.*:ALL,GRANT
+    state=present
+  notify:
+    - reload mysql
