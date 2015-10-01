@@ -1,0 +1,69 @@
+//= require_tree .
+
+body {
+  margin: 0;
+}
+
+a {
+  font: inherit;
+  text-decoration: none;
+}
+
+$header-spacing: 0.5em;
+
+.header {
+  background-color: #EEE;
+}
+
+.header-flex {
+  align-items: center;
+  display: flex;
+}
+
+.header-spacer {
+  flex-grow: 1;
+}
+
+.header-content {
+  @extend .header-flex;
+
+  max-width: 65em;
+  margin: { right: auto; left: auto }
+  padding: $header-spacing;
+}
+
+.header-logo {
+  $size: 2em;
+
+  max: { width: $size; height: $size }
+  margin-right: $header-spacing;
+}
+
+.header-title {
+  color: #555;
+  font: 300 2em/1 Lato, sans-serif;
+  text-transform: uppercase;
+
+  margin: 0;
+}
+
+.header-button {
+  background: none;
+  border: 1px solid #888;
+  //border-radius: 0.15em;
+  color: #555;
+  font: 400 1em/1 Lato, sans-serif;
+  outline: none;
+
+  transition: background-color .1s;
+
+  padding: $header-spacing;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, .02);
+  }
+
+  &:active {
+    background-color: rgba(0, 0, 0, .04);
+  }
+}

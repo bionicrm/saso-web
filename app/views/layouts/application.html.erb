@@ -4,45 +4,21 @@
     <head>
       <meta charset="UTF-8">
 
-      <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700"/>
+
+      <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': true %>
       <%= csrf_meta_tags %>
 
       <title><%= yield :title %> | Saso</title>
     </head>
 
     <body>
-        <% if user %>
-            <p>
-              Logged in as <%= user.name %> &lt;<%= user.email %>&gt; via
-            </p>
-
-            <ul>
-              <% user.providers.each do |provider| %>
-                  <li><%= provider.name %></li>
-              <% end %>
-            </ul>
-
-            <ul>
-              <% get_unconnected_providers.each do |provider| %>
-                  <li><%= link_to 'Connect to ' + provider.name, '/auth/' + provider.name %></li>
-              <% end %>
-            </ul>
-
-            <%= link_to 'Logout', '/logout' %>
-        <% else %>
-
-        <h2>Login with:</h2>
-
-        <ul>
-          <% Provider.all.each do |provider| %>
-              <li><%= link_to provider.name, '/auth/' + provider.name %></li>
-          <% end %>
-        </ul>
-
-        <% end %>
+        <%= render 'partials/header' %>
 
         <%= yield %>
 
-        <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+        <%= render 'partials/footer' %>
+
+        <%= javascript_include_tag 'application', 'data-turbolinks-track': true %>
     </body>
 </html>
