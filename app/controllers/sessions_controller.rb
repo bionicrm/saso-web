@@ -29,23 +29,23 @@ class SessionsController < ApplicationController
     }
 
     # @type [Provider]
-    provider = Provider.find_or_create_by name: auth.provider
+    provider = Provider.find_or_create_by name: auth[:provider]
 
     # @type [ProviderUser]
     provider_user = ProviderUser.find_or_initialize_by provider: provider,
-                                                       provider_unique_id: auth.uid
+                                                       provider_unique_id: auth[:uid]
 
     if provider_user.new_record?
       # use currently logged in user or create new one
       # @type [User]
-      user = current_user || User.create(main_provider_id: provider,
-                                         name: auth.name,
-                                         email: auth.email)
+      user = current_user || User.create(main_provider: provider,
+                                         name: auth[:name],
+                                         email: auth[:email])
 
       # set new provider_user details
       provider_user.user = user
-      provider_user.access_token = auth.token
-      provider_user.refresh_token = auth.refresh_token
+      provider_user.access_token = auth[:token]
+      provider_user.refresh_token = auth[:refresh_token]
 
       provider_user.save!
     else
@@ -58,14 +58,14 @@ class SessionsController < ApplicationController
       # if the provider used for the request is the user's main provider...
       if provider.name == main_provider.name
         # update user's details
-        user.name = auth.name
-        user.email = auth.email
+        user.name = auth[:name]
+        user.email = auth[:email]
 
         user.save!
       end
 
       # update provider_user details
-      provider_user.access_token = auth.token
+      provider_user.access_token = auth[:token]
 
       provider_user.save!
     end
