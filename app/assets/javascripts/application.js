@@ -1,10 +1,8 @@
-//= require jquery
-//= require jquery_ujs
+//= require jquery2
 //= require turbolinks
-//= require_tree .
+
+'use strict';
 
 function jsonStr(o) {
     return JSON.stringify(o);
 }
-
-new Transport().connect();

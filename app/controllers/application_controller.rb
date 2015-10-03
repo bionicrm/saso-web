@@ -16,7 +16,35 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user, :logged_in?
 
-  # @type [User] user
+  # @return [String]
+  def destination
+    @destination ||= session[:destination]
+  end
+
+  # @param [String] destination
+  def destination=(destination)
+    @destination = destination
+
+    if destination.nil?
+      session.delete(:destination)
+    else
+      session[:destination] = destination
+    end
+  end
+
+  # @return [Redirecting]
+  def redirect_to_destination
+    if destination
+      tmp_destination = destination
+      self.destination = nil
+
+      return redirect_to tmp_destination
+    end
+
+    redirect_to root_path
+  end
+
+  # @param [User] user
   def current_user=(user)
     @current_user = user
 
@@ -26,8 +54,4 @@ class ApplicationController < ActionController::Base
       session[:user_id] = user.id
     end
   end
-
-  # def get_unconnected_providers
-  #   Provider.where('id NOT IN (?)', user.providers.pluck(:id)).all
-  # end
 end

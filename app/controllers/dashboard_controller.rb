@@ -2,6 +2,11 @@ class DashboardController < ApplicationController
   LIVE_TOKEN_LENGTH = 64
 
   def index
+    unless logged_in?
+      self.destination = dashboard_path
+
+      redirect_to login_path
+    end
   end
 
   # noinspection RailsChecklist01

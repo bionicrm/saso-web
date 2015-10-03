@@ -2,7 +2,7 @@ class SessionsController < ApplicationController
   def create
     self.current_user = find_or_create_user!
 
-    redirect_to root_path
+    redirect_to_destination
   end
 
   def destroy
