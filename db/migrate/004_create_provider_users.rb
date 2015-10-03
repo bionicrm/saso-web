@@ -11,17 +11,13 @@ class CreateProviderUsers < ActiveRecord::Migration
                    foreign_key: true,
                    null: false
 
+      t.references :auth_token,
+                   index: true,
+                   foreign_key: true,
+                   null: false
+
       t.string :provider_unique_id,
-               limit: 64,
                null: false
-
-      t.string :access_token,
-               limit: 255,
-               null: true
-
-      t.string :refresh_token,
-               limit: 255,
-               null: true
 
       t.timestamps null: false
     end

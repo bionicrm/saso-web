@@ -13,61 +13,35 @@ class SessionsController < ApplicationController
 
   private
 
-  def auth_hash
-    request.env['omniauth.auth']
-  end
-
   def find_or_create_user!
-    auth = {
-        provider: auth_hash[:provider],
-        uid: auth_hash[:uid],
-        name: auth_hash[:info][:name],
-        email: auth_hash[:info][:email],
-        token: auth_hash[:credentials][:token],
-        # FIXME: seems to not get the correct value?
-        refresh_token: auth_hash[:credentials][:secret] || auth_hash[:credentials][:refresh_token]
-    }
+    auth = request.env['omniauth.auth']
 
     # @type [Provider]
-    provider = Provider.find_or_create_by name: auth[:provider]
+    provider = Provider.select(:id).find_or_create_by!(name: auth[:provider])
 
     # @type [ProviderUser]
-    provider_user = ProviderUser.find_or_initialize_by provider: provider,
-                                                       provider_unique_id: auth[:uid]
+    provider_user = ProviderUser
+                        .select(:id, :user_id, :auth_token_id)
+                        .find_or_initialize_by(provider: provider,
+                                               provider_unique_id: auth[:uid])
+
+    # @type [AuthToken]
+    new_auth_token = AuthToken.new(access: auth[:credentials][:token],
+                                   refresh: auth[:credentials][:refresh_token],
+                                   expires: !!auth[:credentials][:expires],
+                                   expires_at: auth[:credentials][:expires_at])
 
     if provider_user.new_record?
       # use currently logged in user or create new one
       # @type [User]
-      user = current_user || User.create(main_provider: provider,
-                                         name: auth[:name],
-                                         email: auth[:email])
+      user = current_user || User.create!(name: auth[:info][:name],
+                                          email: auth[:info][:email])
 
-      # set new provider_user details
-      provider_user.user = user
-      provider_user.access_token = auth[:token]
-      provider_user.refresh_token = auth[:refresh_token]
-
-      provider_user.save!
+      new_auth_token.save!
+      provider_user.update!(user: user, auth_token: new_auth_token)
     else
-      # @type [User]
-      user = provider_user.user
-
-      # @type [Provider]
-      main_provider = user.main_provider
-
-      # if the provider used for the request is the user's main provider...
-      if provider.name == main_provider.name
-        # update user's details
-        user.name = auth[:name]
-        user.email = auth[:email]
-
-        user.save!
-      end
-
-      # update provider_user details
-      provider_user.access_token = auth[:token]
-
-      provider_user.save!
+      provider_user.auth_token.update!(
+          new_auth_token.attributes.delete_if { |k, v| v.nil? } )
     end
 
     provider_user.user

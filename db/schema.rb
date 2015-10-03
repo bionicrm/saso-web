@@ -11,7 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 3) do
+ActiveRecord::Schema.define(version: 4) do
+
+  create_table "auth_tokens", force: :cascade do |t|
+    t.string   "access",     limit: 255, null: false
+    t.string   "refresh",    limit: 255
+    t.boolean  "expires",                null: false
+    t.datetime "expires_at"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
 
   create_table "live_tokens", force: :cascade do |t|
     t.integer  "user_id",    limit: 4,                  null: false
@@ -28,13 +37,13 @@ ActiveRecord::Schema.define(version: 3) do
   create_table "provider_users", force: :cascade do |t|
     t.integer  "user_id",            limit: 4,   null: false
     t.integer  "provider_id",        limit: 4,   null: false
-    t.string   "provider_unique_id", limit: 64,  null: false
-    t.string   "access_token",       limit: 255
-    t.string   "refresh_token",      limit: 255
+    t.integer  "auth_token_id",      limit: 4,   null: false
+    t.string   "provider_unique_id", limit: 255, null: false
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
   end
 
+  add_index "provider_users", ["auth_token_id"], name: "index_provider_users_on_auth_token_id", using: :btree
   add_index "provider_users", ["provider_id"], name: "index_provider_users_on_provider_id", using: :btree
   add_index "provider_users", ["user_id"], name: "index_provider_users_on_user_id", using: :btree
 
@@ -43,17 +52,14 @@ ActiveRecord::Schema.define(version: 3) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.integer  "provider_id", limit: 4,   null: false
-    t.string   "name",        limit: 64,  null: false
-    t.string   "email",       limit: 254
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.string   "name",       limit: 64,  null: false
+    t.string   "email",      limit: 254
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
-  add_index "users", ["provider_id"], name: "index_users_on_provider_id", using: :btree
-
   add_foreign_key "live_tokens", "users"
+  add_foreign_key "provider_users", "auth_tokens"
   add_foreign_key "provider_users", "providers"
   add_foreign_key "provider_users", "users"
-  add_foreign_key "users", "providers"
 end

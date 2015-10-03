@@ -1,0 +1,57 @@
+$header-spacing: 0.5em;
+
+.header {
+  background-color: $gray-hi;
+}
+
+.header-flex {
+  align-items: center;
+  display: flex;
+}
+
+.header-spacer {
+  flex-grow: 1;
+}
+
+.header-content {
+  @extend .header-flex;
+
+  max-width: 65em;
+  margin: { right: auto; left: auto }
+  padding: $header-spacing;
+}
+
+.header-logo {
+  $size: 2em;
+
+  max: { width: $size; height: $size }
+  margin-right: $header-spacing;
+}
+
+.header-title {
+  color: $gray-lo;
+  font: 300 2em/1 $font-default;
+  text-transform: uppercase;
+
+  margin: 0;
+}
+
+.header-button {
+  background: none;
+  border: 1px solid $gray-mid;
+  color: $gray-lo;
+  font: 400 1em/1 $font-default;
+  outline: none;
+
+  transition: background-color 0.1s;
+
+  padding: $header-spacing;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, .02);
+  }
+
+  &:active {
+    background-color: rgba(0, 0, 0, .04);
+  }
+}

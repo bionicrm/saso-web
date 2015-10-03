@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 
   # @return [User]
   def current_user
-    @current_user ||= User.find_by id: session[:user_id]
+    @current_user ||= User.find_by(id: session[:user_id])
   end
 
   def logged_in?
@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
     @current_user = user
 
     if user.nil?
-      session.delete :user_id
+      session.delete(:user_id)
     else
       session[:user_id] = user.id
     end

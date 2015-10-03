@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  access: MyString
+  refresh: MyString
+  expires: false
+  expires_at: 2015-10-03 00:36:32
+
+two:
+  access: MyString
+  refresh: MyString
+  expires: false
+  expires_at: 2015-10-03 00:36:32

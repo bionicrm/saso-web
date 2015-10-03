@@ -1,11 +1,6 @@
 class CreateUsers < ActiveRecord::Migration
   def change
     create_table :users do |t|
-      t.references :provider,
-                   index: true,
-                   foreign_key: true,
-                   null: false
-
       t.string :name,
                limit: 64,
                null: false

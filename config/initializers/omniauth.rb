@@ -6,7 +6,7 @@ Rails.application.config.middleware.use OmniAuth::Builder do
 
   # Google
   provider :google_oauth2, ENV['GOOGLE_CLIENT_ID'], ENV['GOOGLE_CLIENT_SECRET'],
-           name: 'google', access_type: 'online', prompt: 'consent'
+           name: 'google', prompt: 'consent'
 
   # Twitter
   provider :twitter, ENV['TWITTER_CLIENT_ID'], ENV['TWITTER_CLIENT_SECRET'],
