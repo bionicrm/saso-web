@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="MySQL - app@10.0.5.7" uuid="dd0272f7-1c6d-4b16-8dc4-fc68b92e3afc">
+    <database-info product="MySQL" version="5.5.44-0ubuntu0.14.04.1" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact"/>
+    <schema name="" catalog="app"/>
+    <table name="auth_tokens" schema="" catalog="app" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="access" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="refresh" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="expires" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="expires_at" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="created_at" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="updated_at" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="fk_rails_330b74f735" table="provider_users" schema="" catalog="app" columns="auth_token_id"/>
+    </table>
+    <table name="live_tokens" schema="" catalog="app" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="token" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12"/>
+      <column name="ip" sqlType="VARBINARY" precision="16" scale="0" nullable="false" jdbcType="-3"/>
+      <column name="is_active" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6" def="MA=="/>
+      <column name="is_used" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6" def="MA=="/>
+      <column name="created_at" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="updated_at" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="fk_rails_1879a614dd" columns="user_id" ref-table="users" ref-schema="" ref-catalog="app" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="index_live_tokens_on_user_id" unique="false" columns="user_id"/>
+    </table>
+    <table name="provider_users" schema="" catalog="app" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="provider_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="auth_token_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="provider_unique_id" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="created_at" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="updated_at" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="fk_rails_330b74f735" columns="auth_token_id" ref-table="auth_tokens" ref-schema="" ref-catalog="app" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="fk_rails_0dadc3590f" columns="provider_id" ref-table="providers" ref-schema="" ref-catalog="app" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="fk_rails_cd8e97006b" columns="user_id" ref-table="users" ref-schema="" ref-catalog="app" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="index_provider_users_on_auth_token_id" unique="false" columns="auth_token_id"/>
+      <index name="index_provider_users_on_provider_id" unique="false" columns="provider_id"/>
+      <index name="index_provider_users_on_user_id" unique="false" columns="user_id"/>
+    </table>
+    <table name="providers" schema="" catalog="app" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="fk_rails_0dadc3590f" table="provider_users" schema="" catalog="app" columns="provider_id"/>
+    </table>
+    <table name="schema_migrations" schema="" catalog="app" type="TABLE">
+      <column name="version" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <index name="unique_schema_migrations" unique="true" columns="version"/>
+    </table>
+    <table name="users" schema="" catalog="app" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="64" scale="0" nullable="false" jdbcType="12"/>
+      <column name="email" sqlType="VARCHAR" precision="254" scale="0" nullable="true" jdbcType="12"/>
+      <column name="created_at" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="updated_at" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="fk_rails_1879a614dd" table="live_tokens" schema="" catalog="app" columns="user_id"/>
+      <exported-key name="fk_rails_cd8e97006b" table="provider_users" schema="" catalog="app" columns="user_id"/>
+    </table>
+  </data-source>
+</component>

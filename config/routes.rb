@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   root 'home#index'
 
+  # dashboard
   get '/dashboard', to: 'dashboard#index'
+  get '/live/token', to: 'dashboard#live_token'
 
   # auth
   get '/login', to: 'login#index'

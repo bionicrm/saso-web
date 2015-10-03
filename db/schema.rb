@@ -23,13 +23,12 @@ ActiveRecord::Schema.define(version: 4) do
   end
 
   create_table "live_tokens", force: :cascade do |t|
-    t.integer  "user_id",    limit: 4,                  null: false
-    t.string   "token",      limit: 32,                 null: false
-    t.binary   "ip",         limit: 16,                 null: false
-    t.boolean  "is_active",             default: false, null: false
-    t.boolean  "is_used",               default: false, null: false
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
+    t.integer  "user_id",    limit: 4,  null: false
+    t.string   "token",      limit: 64, null: false
+    t.binary   "ip",         limit: 16, null: false
+    t.datetime "expires_at",            null: false
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
   end
 
   add_index "live_tokens", ["user_id"], name: "index_live_tokens_on_user_id", using: :btree

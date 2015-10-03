@@ -7,7 +7,7 @@ class CreateLiveTokens < ActiveRecord::Migration
                    null: false
 
       t.string :token,
-               limit: 32,
+               limit: 64,
                null: false,
                uniqueness: true
 
@@ -15,13 +15,8 @@ class CreateLiveTokens < ActiveRecord::Migration
                limit: 16,
                null: false
 
-      t.boolean :is_active,
-                null: false,
-                default: false
-
-      t.boolean :is_used,
-                null: false,
-                default: false
+      t.timestamp :expires_at,
+                  null: false
 
       t.timestamps null: false
     end
