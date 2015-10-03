@@ -25,11 +25,13 @@ class SessionsController < ApplicationController
                         .find_or_initialize_by(provider: provider,
                                                provider_unique_id: auth[:uid])
 
+    expires_at = Time.at(auth[:credentials][:expires_at])
+
     # @type [AuthToken]
     new_auth_token = AuthToken.new(access: auth[:credentials][:token],
                                    refresh: auth[:credentials][:refresh_token],
                                    expires: !!auth[:credentials][:expires],
-                                   expires_at: auth[:credentials][:expires_at])
+                                   expires_at: expires_at)
 
     if provider_user.new_record?
       # use currently logged in user or create new one
