@@ -7,9 +7,6 @@ class CreateAuthTokens < ActiveRecord::Migration
       t.string :refresh,
                null: true
 
-      t.boolean :expires,
-                null: false
-
       t.timestamp :expires_at,
                   null: true
 

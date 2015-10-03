@@ -43,7 +43,7 @@ Transport.prototype.connect = function() {
  */
 Transport.prototype.createWebSocket = function() {
     // TODO: correct address
-    return this.ws = new WebSocket('wss://echo.websocket.org');
+    return this.ws = new WebSocket('ws://echo.websocket.org');
 };
 
 /**

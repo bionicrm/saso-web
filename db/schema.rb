@@ -16,7 +16,6 @@ ActiveRecord::Schema.define(version: 4) do
   create_table "auth_tokens", force: :cascade do |t|
     t.string   "access",     limit: 255, null: false
     t.string   "refresh",    limit: 255
-    t.boolean  "expires",                null: false
     t.datetime "expires_at"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false

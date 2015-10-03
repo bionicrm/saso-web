@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component name="dataSourceStorage">
-  <data-source name="MySQL - app@10.0.5.7" uuid="dd0272f7-1c6d-4b16-8dc4-fc68b92e3afc">
+  <data-source name="MySQL - app@saso.dev" uuid="dd0272f7-1c6d-4b16-8dc4-fc68b92e3afc">
     <database-info product="MySQL" version="5.5.44-0ubuntu0.14.04.1" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
       <extra-name-characters>#@</extra-name-characters>
       <identifier-quote-string>`</identifier-quote-string>
@@ -21,10 +21,9 @@
     <table name="live_tokens" schema="" catalog="app" type="TABLE">
       <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
       <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="token" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12"/>
+      <column name="token" sqlType="VARCHAR" precision="64" scale="0" nullable="false" jdbcType="12"/>
       <column name="ip" sqlType="VARBINARY" precision="16" scale="0" nullable="false" jdbcType="-3"/>
-      <column name="is_active" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6" def="MA=="/>
-      <column name="is_used" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6" def="MA=="/>
+      <column name="expires_at" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
       <column name="created_at" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
       <column name="updated_at" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
       <primary-key name="PRIMARY" columns="id"/>
