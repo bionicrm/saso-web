@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 4) do
   create_table "live_tokens", force: :cascade do |t|
     t.integer  "user_id",               null: false
     t.string   "token",      limit: 64, null: false
-    t.binary   "ip",                    null: false
+    t.cidr     "ip",                    null: false
     t.datetime "expires_at",            null: false
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false

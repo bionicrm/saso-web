@@ -11,9 +11,8 @@ class CreateLiveTokens < ActiveRecord::Migration
                null: false,
                uniqueness: true
 
-      t.binary :ip,
-               limit: 16,
-               null: false
+      t.cidr :ip,
+             null: false
 
       t.timestamp :expires_at,
                   null: false

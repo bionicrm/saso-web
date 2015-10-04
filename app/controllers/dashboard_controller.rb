@@ -41,12 +41,11 @@ class DashboardController < ApplicationController
     # generate a new live_token cookie and persist it
 
     token = SecureRandom.base64(LIVE_TOKEN_LENGTH)[0..LIVE_TOKEN_LENGTH - 1]
-    ip = IPAddr.new(request.remote_ip).to_i
     expires_at = 1.hour.from_now
 
     LiveToken.create!(user: current_user,
                       token: token,
-                      ip: ip,
+                      ip: request.remote_ip,
                       expires_at: expires_at)
 
     cookies[:live_token] = { value: token,
