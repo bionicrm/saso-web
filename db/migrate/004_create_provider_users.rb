@@ -16,8 +16,8 @@ class CreateProviderUsers < ActiveRecord::Migration
                    foreign_key: true,
                    null: false
 
-      t.string :provider_unique_id,
-               null: false
+      t.text :provider_unique_id,
+             null: false
 
       t.timestamps null: false
     end

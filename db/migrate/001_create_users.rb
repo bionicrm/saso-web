@@ -1,12 +1,12 @@
 class CreateUsers < ActiveRecord::Migration
   def change
+    enable_extension 'citext' unless extension_enabled? 'citext'
+
     create_table :users do |t|
-      t.string :name,
-               limit: 64,
+      t.citext :name,
                null: false
 
-      t.string :email,
-               limit: 254,
+      t.citext :email,
                null: true,
                uniqueness: true
 

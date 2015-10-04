@@ -6,10 +6,10 @@ class CreateLiveTokens < ActiveRecord::Migration
                    foreign_key: true,
                    null: false
 
-      t.string :token,
-               limit: 64,
-               null: false,
-               uniqueness: true
+      t.text :token,
+             limit: 64,
+             null: false,
+             uniqueness: true
 
       t.cidr :ip,
              null: false
