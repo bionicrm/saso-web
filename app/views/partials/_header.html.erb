@@ -3,17 +3,25 @@
     <a class="header-flex" href="<%= root_path %>">
       <%= image_tag 'saso.svg', class: 'header-logo', alt: 'Saso' %>
 
-      <h1 class="header-title">
-        Saso
-      </h1>
+      <h1 class="header-title">Saso</h1>
     </a>
 
     <div class="header-spacer"></div>
 
-    <a class="header-button-link" href="<%= login_path %>">
-      <button class="header-button">
-        Log <%# should we keep an extra space here? Dunno, let's spend millions
-        of dollars and do a UX study! \o/ %>in</button>
-    </a>
+    <% if logged_in? %>
+        <a class="header-button-link" href="<%= dashboard_path %>">
+          <button class="header-button">Dashboard</button>
+        </a>
+
+        <a class="header-button-link" href="<%= logout_path %>">
+          <button class="header-button">Log Out</button>
+        </a>
+    <% else %>
+        <a class="header-button-link" href="<%= login_path %>">
+          <button class="header-button">
+            Log <%# should we keep an extra space here? Dunno, let's spend millions
+            of dollars and do a UX study! \o/ %>In</button>
+        </a>
+    <% end %>
   </div>
 </header>

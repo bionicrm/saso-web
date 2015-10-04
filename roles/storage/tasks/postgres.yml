@@ -1,0 +1,40 @@
+---
+- name: install PostgreSQL
+  apt: name=postgresql state=present
+
+- name: install Ansible PostgreSQL dependencies
+  apt: name={{ item }} state=present
+  with_items:
+    - libpq-dev
+    - python-psycopg2
+
+- name: create app database
+  postgresql_db:
+    name=app state=present
+    encoding=UTF-8
+  become: yes
+  become_user: postgres
+
+- name: create PostgreSQL user
+  postgresql_user:
+    name=vagrant state=present
+    password=vagrant
+    db=app
+    priv=ALL
+    role_attr_flags=SUPERUSER
+  become: yes
+  become_user: postgres
+
+- name: allow remote PostgreSQL connection authentication
+  lineinfile:
+    dest=/etc/postgresql/9.4/main/pg_hba.conf
+    line="host all all 0.0.0.0/0 trust"
+  notify:
+    - reload postgresql
+
+- name: allow remote PostgreSQL connections
+  lineinfile:
+    dest=/etc/postgresql/9.4/main/postgresql.conf
+    line="listen_addresses = '*'"
+  notify:
+    - reload postgresql

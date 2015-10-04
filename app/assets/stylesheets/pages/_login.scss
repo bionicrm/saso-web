@@ -1,0 +1,48 @@
+$login-button-spacing: 0.5em;
+
+.login-box {
+  @include content-container($max-width: 40em, $padding: 0);
+}
+
+.login-title {
+  color: $gray-lo;
+  font: 300 2em/1 $font-default;
+}
+
+.login-button-row {
+  display: flex;
+  flex-grow: 1;
+
+  &:not(:last-child) {
+    margin-bottom: $login-button-spacing;
+  }
+}
+
+.login-button-link {
+  width: 100%;
+
+  &:not(:last-child) {
+    margin-right: $login-button-spacing;
+  }
+}
+
+.login-button {
+  background: none;
+  border: 1px solid $gray-mid;
+  color: $gray-lo;
+  font: 400 1em/1 $font-default;
+  outline: none;
+
+  transition: background-color 0.1s;
+
+  width: 100%;
+  padding: $header-spacing;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, .02);
+  }
+
+  &:active {
+    background-color: rgba(0, 0, 0, .04);
+  }
+}

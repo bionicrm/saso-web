@@ -13,18 +13,21 @@
 
 ActiveRecord::Schema.define(version: 4) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "auth_tokens", force: :cascade do |t|
-    t.string   "access",     limit: 255, null: false
-    t.string   "refresh",    limit: 255
+    t.string   "access",     null: false
+    t.string   "refresh"
     t.datetime "expires_at"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "live_tokens", force: :cascade do |t|
-    t.integer  "user_id",    limit: 4,  null: false
+    t.integer  "user_id",               null: false
     t.string   "token",      limit: 64, null: false
-    t.binary   "ip",         limit: 16, null: false
+    t.binary   "ip",                    null: false
     t.datetime "expires_at",            null: false
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
@@ -33,12 +36,12 @@ ActiveRecord::Schema.define(version: 4) do
   add_index "live_tokens", ["user_id"], name: "index_live_tokens_on_user_id", using: :btree
 
   create_table "provider_users", force: :cascade do |t|
-    t.integer  "user_id",            limit: 4,   null: false
-    t.integer  "provider_id",        limit: 4,   null: false
-    t.integer  "auth_token_id",      limit: 4,   null: false
-    t.string   "provider_unique_id", limit: 255, null: false
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.integer  "user_id",            null: false
+    t.integer  "provider_id",        null: false
+    t.integer  "auth_token_id",      null: false
+    t.string   "provider_unique_id", null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
   end
 
   add_index "provider_users", ["auth_token_id"], name: "index_provider_users_on_auth_token_id", using: :btree

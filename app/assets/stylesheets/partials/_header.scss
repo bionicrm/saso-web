@@ -16,9 +16,7 @@ $header-spacing: 0.5em;
 .header-content {
   @extend .header-flex;
 
-  max-width: 65em;
-  margin: { right: auto; left: auto }
-  padding: $header-spacing;
+  @include content-container($padding: $header-spacing);
 }
 
 .header-logo {
@@ -34,6 +32,10 @@ $header-spacing: 0.5em;
   text-transform: uppercase;
 
   margin: 0;
+}
+
+.header-button-link:not(:last-child) {
+  margin-right: $header-spacing
 }
 
 .header-button {

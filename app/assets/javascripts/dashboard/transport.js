@@ -1,5 +1,10 @@
 'use strict';
 
+/**
+ * Creates a new Transport.
+ *
+ * @constructor
+ */
 var Transport = function() {};
 
 /**
@@ -8,48 +13,58 @@ var Transport = function() {};
 Transport.prototype.connect = function() {
     var o = this;
 
-    this.createWebSocket();
+    this.ws = this.createWebSocket();
 
     this.retrieveLiveToken(function(jqXHR, textStatus) {
-        console.log(jsonStr(jqXHR));
-        console.log(jsonStr(textStatus));
-
+        /**
+         * @param e {Event}
+         */
         o.ws.onopen = function(e) {
             // TODO: do something here
-            o.ws.send("Test 123")
+            setInterval(function() {
+                o.ws.send(new Date().getTime().toString())
+            }, 1);
         };
 
+        /**
+         * @param e {MessageEvent}
+         */
         o.ws.onmessage = function(e) {
             // TODO: do something here
-            console.log(jsonStr(e.data));
+            console.log(e.data);
         };
 
+        /**
+         * @param e {Event}
+         */
         o.ws.onclose = function(e) {
-            console.log(jsonStr(e));
             // reconnect if connection is closed
             o.connect();
         };
 
+        /**
+         * @param e {Event}
+         */
         o.ws.onerror = function(e) {
-            console.log(jsonStr(e));
+            alert(e);
         };
     });
 };
 
 /**
- * Gets and sets a new WebSocket that connects to the server.
+ * Creates a new WebSocket that connects to the server.
  *
  * @returns {WebSocket}
  */
 Transport.prototype.createWebSocket = function() {
     // TODO: correct address
-    return this.ws = new WebSocket('ws://echo.websocket.org');
+    return new WebSocket('ws://echo.websocket.org');
 };
 
 /**
  * Makes an AJAX request to get a live token.
  *
- * @param oncomplete the function to be called on completion of the request
+ * @param oncomplete {function} the function to be called on completion of the request
  */
 Transport.prototype.retrieveLiveToken = function(oncomplete) {
     // TODO: maybe need onsuccess instead and do error handling
