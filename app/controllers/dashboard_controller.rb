@@ -50,6 +50,7 @@ class DashboardController < ApplicationController
 
     cookies[:live_token] = { value: token,
                              expires: expires_at,
+                             domain: 'saso.dev',
                              httponly: true }
 
     head :created

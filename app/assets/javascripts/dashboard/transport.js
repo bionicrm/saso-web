@@ -8,47 +8,71 @@
 var Transport = function() {};
 
 /**
- * Connects to the server to receive live updates.
+ * Connects to the server to receive live updates. Disconnects and reconnects if
+ * currently connected.
  */
 Transport.prototype.connect = function() {
     var o = this;
 
-    this.ws = this.createWebSocket();
-
-    this.retrieveLiveToken(function(jqXHR, textStatus) {
+    this.retrieveLiveToken(
         /**
-         * @param e {Event}
+         * @param data
+         * @param textStatus {String}
+         * @param jqXHR {XMLHttpRequest}
          */
-        o.ws.onopen = function(e) {
-            // TODO: do something here
-            setInterval(function() {
-                o.ws.send(new Date().getTime().toString())
-            }, 1);
-        };
+        function(data, textStatus, jqXHR) {
+            o.ws = o.createWebSocket();
 
-        /**
-         * @param e {MessageEvent}
-         */
-        o.ws.onmessage = function(e) {
-            // TODO: do something here
-            console.log(e.data);
-        };
+            /**
+             * @param e {Event}
+             */
+            o.ws.onopen = function(e) {
+                // TODO: do something here
+                var sender = setInterval(function() {
+                    if (o.ws.readyState < 2) {
+                        o.ws.send(new Date().getTime().toString())
+                    }
+                    else {
+                        clearInterval(sender);
+                    }
+                }, 1000);
+            };
 
-        /**
-         * @param e {Event}
-         */
-        o.ws.onclose = function(e) {
-            // reconnect if connection is closed
-            o.connect();
-        };
+            /**
+             * @param e {MessageEvent}
+             */
+            o.ws.onmessage = function(e) {
+                console.log('Received: ' + e.data);
+                o.handleMessage(e.data.toString());
+            };
 
-        /**
-         * @param e {Event}
-         */
-        o.ws.onerror = function(e) {
-            alert(e);
-        };
-    });
+            /**
+             * Reconnects when the connection closes.
+             *
+             * @param e {Event}
+             */
+            o.ws.onclose = function(e) {
+                o.reconnectAfterDelay();
+            };
+
+            /**
+             * @param e {Event}
+             */
+            o.ws.onerror = function(e) {
+                /* empty */
+            };
+        }
+    );
+};
+
+Transport.prototype.reconnectAfterDelay = function() {
+    var o = this;
+
+    setTimeout(function() {
+        if (o.ws) o.ws.close();
+
+        o.connect();
+    }, 5000);
 };
 
 /**
@@ -57,21 +81,50 @@ Transport.prototype.connect = function() {
  * @returns {WebSocket}
  */
 Transport.prototype.createWebSocket = function() {
-    // TODO: correct address
-    return new WebSocket('ws://echo.websocket.org');
+    const url = 'ws://ws.saso.dev:7692';
+
+    return new WebSocket(url);
 };
 
 /**
  * Makes an AJAX request to get a live token.
  *
- * @param oncomplete {function} the function to be called on completion of the request
+ * @param onSuccess {function} the function to be called on success of the
+ * request
  */
-Transport.prototype.retrieveLiveToken = function(oncomplete) {
-    // TODO: maybe need onsuccess instead and do error handling
+Transport.prototype.retrieveLiveToken = function(onSuccess) {
+    var o = this;
+
+    const path = '/live/token';
+
     $.ajax({
         method: 'HEAD',
-        url: window.location.protocol + '//' + window.location.host + '/live/token',
+        url: window.location.protocol + '//' + window.location.host + path,
         cache: false,
-        complete: oncomplete
+        success: onSuccess,
+
+        /**
+         * @param jqXHR {XMLHttpRequest}
+         * @param textStatus {String}
+         * @param errorThrown {String}
+         */
+        error: function(jqXHR, textStatus, errorThrown) {
+            o.reconnectAfterDelay();
+        }
     });
+};
+
+/**
+ * Handles a WebSocket message.
+ *
+ * @param msg {String} the message received from the WebSocket
+ */
+Transport.prototype.handleMessage = function(msg) {
+    const code = parseInt(msg.split(' ', 1)[0]);
+
+    switch (code) {
+        //case Protocol.EXPIRED_TOKEN:
+        //    this.reconnectAfterDelay();
+        //    break;
+    }
 };
