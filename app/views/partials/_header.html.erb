@@ -14,13 +14,11 @@
         </a>
 
         <a class="header-button-link" href="<%= logout_path %>">
-          <button class="header-button">Log Out</button>
+          <button class="header-button">Logout</button>
         </a>
     <% else %>
         <a class="header-button-link" href="<%= login_path %>">
-          <button class="header-button">
-            Log <%# should we keep an extra space here? Dunno, let's spend millions
-            of dollars and do a UX study! \o/ %>In</button>
+          <button class="header-button">Login</button>
         </a>
     <% end %>
   </div>

@@ -7,7 +7,7 @@
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700"/>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': true %>
+    <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= csrf_meta_tags %>
 
     <title><%= yield :title %> | Saso</title>
@@ -22,7 +22,7 @@
 
     <%= render 'partials/footer' %>
 
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': true %>
+    <%= javascript_include_tag 'application' %>
 
     <%= yield :javascripts %>
   </body>
