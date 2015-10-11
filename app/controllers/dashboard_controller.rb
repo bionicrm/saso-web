@@ -1,4 +1,5 @@
 class DashboardController < ApplicationController
+  MAX_CONNS_PER_USER = 3
   LIVE_TOKEN_LENGTH = 64
 
   def index
@@ -18,6 +19,14 @@ class DashboardController < ApplicationController
 
       # return 403
       return head :forbidden
+    end
+
+    $redis.select($redis_databases[:concurrent_connections])
+
+    # if there's too many concurrent connections for the user
+    if $redis.get(current_user.id).to_i >= MAX_CONNS_PER_USER
+      # return 429
+      return head :too_many_requests
     end
 
     # get current live_token cookie

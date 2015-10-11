@@ -27,22 +27,13 @@ Transport.prototype.connect = function() {
              * @param e {Event}
              */
             o.ws.onopen = function(e) {
-                // TODO: do something here
-                var sender = setInterval(function() {
-                    if (o.ws.readyState < 2) {
-                        o.ws.send(new Date().getTime().toString())
-                    }
-                    else {
-                        clearInterval(sender);
-                    }
-                }, 1000);
+                // TODO
             };
 
             /**
              * @param e {MessageEvent}
              */
             o.ws.onmessage = function(e) {
-                console.log('Received: ' + e.data);
                 o.handleMessage(e.data.toString());
             };
 
@@ -58,9 +49,7 @@ Transport.prototype.connect = function() {
             /**
              * @param e {Event}
              */
-            o.ws.onerror = function(e) {
-                /* empty */
-            };
+            o.ws.onerror = function(e) { /* empty */ };
         }
     );
 };
@@ -109,6 +98,11 @@ Transport.prototype.retrieveLiveToken = function(onSuccess) {
          * @param errorThrown {String}
          */
         error: function(jqXHR, textStatus, errorThrown) {
+            if (jqXHR.status === Protocol.TOO_MANY_CONCURRENT_CONNECTIONS) {
+                // TODO: remove and handle errors
+                alert('Too many concurrent requests!');
+            }
+
             o.reconnectAfterDelay();
         }
     });
@@ -120,11 +114,7 @@ Transport.prototype.retrieveLiveToken = function(onSuccess) {
  * @param msg {String} the message received from the WebSocket
  */
 Transport.prototype.handleMessage = function(msg) {
-    const code = parseInt(msg.split(' ', 1)[0]);
-
-    switch (code) {
-        //case Protocol.EXPIRED_TOKEN:
-        //    this.reconnectAfterDelay();
-        //    break;
+    if (this.onmessage) {
+        this.onmessage(msg);
     }
 };

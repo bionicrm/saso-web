@@ -2,4 +2,10 @@
 
 'use strict';
 
-new Transport().connect();
+var transport = new Transport();
+
+transport.connect();
+
+transport.onmessage = function(msg) {
+    $('#dashboard').prepend(msg);
+};
