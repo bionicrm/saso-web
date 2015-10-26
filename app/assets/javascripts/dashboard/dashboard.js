@@ -7,5 +7,7 @@ var transport = new Transport();
 transport.connect();
 
 transport.onmessage = function(msg) {
+    console.log(msg);
+
     $('#dashboard').prepend(msg);
 };

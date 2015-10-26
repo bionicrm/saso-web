@@ -42,6 +42,7 @@ $header-spacing: 0.5em;
   background: none;
   border: 1px solid $gray-mid;
   color: $gray-lo;
+  cursor: pointer;
   font: 400 1em/1 $font-default;
   outline: none;
 
@@ -50,10 +51,10 @@ $header-spacing: 0.5em;
   padding: $header-spacing;
 
   &:hover {
-    background-color: rgba(0, 0, 0, .02);
+    background-color: rgba(0, 0, 0, .04);
   }
 
   &:active {
-    background-color: rgba(0, 0, 0, .04);
+    background-color: rgba(0, 0, 0, .08);
   }
 }

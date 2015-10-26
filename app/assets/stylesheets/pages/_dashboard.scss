@@ -1,5 +1,71 @@
-#dashboard {
-  img {
-    width: 3em;
+.notif-github-comment {
+  border: 1px solid #5675D7;
+  border-bottom: 5px solid #5675D7;
+  border-radius: 3px;
+
+  width: 30em;
+  margin: 1em;
+  padding: 0.5em;
+}
+
+.notif-header {
+  border-bottom: 1px solid $gray-hi;
+  padding-bottom: 0.5em;
+
+  h3 {
+    color: $gray-mid;
+    font: 700 1em/1.3 $font-default;
+    word-wrap: break-word;
+
+    margin: 0;
   }
+}
+
+.notif-thread-title {
+  color: $gray-lo;
+}
+
+.notif-comment-icon {
+  width: 3em;
+  height: 3em;
+}
+
+.notif-content {
+  color: $gray-lo;
+  font: 300 1em/1.3 $font-default;
+
+  align-items: center;
+  display: flex;
+
+  > * {
+    margin: {
+      top: 0.5em;
+      bottom: 0.5em;
+    }
+  }
+
+  .notif-actor-avatar-url {
+    border-radius: 3px;
+
+    width: 3em;
+    height: 3em;
+    margin-right: 0.5em;
+  }
+
+  .notif-actor {
+    font-weight: 700
+  }
+}
+
+.notif-content-inner {
+  word-wrap: break-word;
+}
+
+.notif-repo {
+  color: #5675D7;
+}
+
+.notif-parent {
+  color: $gray-lo;
+  font: 300 1em/1 $font-default;
 }
