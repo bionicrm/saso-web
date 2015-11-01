@@ -15,7 +15,6 @@ ActiveRecord::Schema.define(version: 4) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "citext"
 
   create_table "auth_tokens", force: :cascade do |t|
     t.text     "access",     null: false
@@ -36,32 +35,32 @@ ActiveRecord::Schema.define(version: 4) do
 
   add_index "live_tokens", ["user_id"], name: "index_live_tokens_on_user_id", using: :btree
 
-  create_table "provider_users", force: :cascade do |t|
-    t.integer  "user_id",            null: false
-    t.integer  "provider_id",        null: false
-    t.integer  "auth_token_id",      null: false
-    t.text     "provider_unique_id", null: false
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+  create_table "service_users", force: :cascade do |t|
+    t.integer  "user_id",           null: false
+    t.integer  "service_id",        null: false
+    t.integer  "auth_token_id",     null: false
+    t.text     "service_unique_id", null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
   end
 
-  add_index "provider_users", ["auth_token_id"], name: "index_provider_users_on_auth_token_id", using: :btree
-  add_index "provider_users", ["provider_id"], name: "index_provider_users_on_provider_id", using: :btree
-  add_index "provider_users", ["user_id"], name: "index_provider_users_on_user_id", using: :btree
+  add_index "service_users", ["auth_token_id"], name: "index_service_users_on_auth_token_id", using: :btree
+  add_index "service_users", ["service_id"], name: "index_service_users_on_service_id", using: :btree
+  add_index "service_users", ["user_id"], name: "index_service_users_on_user_id", using: :btree
 
-  create_table "providers", force: :cascade do |t|
+  create_table "services", force: :cascade do |t|
     t.string "name", null: false
   end
 
   create_table "users", force: :cascade do |t|
-    t.citext   "name",       null: false
-    t.citext   "email"
+    t.text     "name",       null: false
+    t.text     "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   add_foreign_key "live_tokens", "users"
-  add_foreign_key "provider_users", "auth_tokens"
-  add_foreign_key "provider_users", "providers"
-  add_foreign_key "provider_users", "users"
+  add_foreign_key "service_users", "auth_tokens"
+  add_foreign_key "service_users", "services"
+  add_foreign_key "service_users", "users"
 end

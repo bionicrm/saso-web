@@ -1,3 +1,3 @@
 class AuthToken < ActiveRecord::Base
-  has_one :provider_user
+  has_one :service_user
 end
