@@ -12,7 +12,7 @@ var Transport = function() {};
  * currently connected.
  */
 Transport.prototype.connect = function() {
-    var o = this;
+    const o = this;
 
     this.retrieveLiveToken(
         /**
@@ -54,12 +54,18 @@ Transport.prototype.connect = function() {
     );
 };
 
+Transport.prototype.disconnect = function() {
+    if (this.ws) {
+        this.ws.onclose = function() { };
+        this.ws.close();
+    }
+};
+
 Transport.prototype.reconnectAfterDelay = function() {
-    var o = this;
+    const o = this;
 
     setTimeout(function() {
-        if (o.ws) o.ws.close();
-
+        o.disconnect();
         o.connect();
     }, 5000);
 };
@@ -70,9 +76,7 @@ Transport.prototype.reconnectAfterDelay = function() {
  * @returns {WebSocket}
  */
 Transport.prototype.createWebSocket = function() {
-    const url = 'ws://ws.saso.dev:7692';
-
-    return new WebSocket(url);
+    return new WebSocket('ws://ws.saso.dev:7692');
 };
 
 /**
@@ -82,13 +86,12 @@ Transport.prototype.createWebSocket = function() {
  * request
  */
 Transport.prototype.retrieveLiveToken = function(onSuccess) {
-    var o = this;
-
-    const path = '/live/token';
+    const o = this;
 
     $.ajax({
         method: 'HEAD',
-        url: window.location.protocol + '//' + window.location.host + path,
+        url: window.location.protocol + '//' + window.location.host
+                + '/live/token',
         cache: false,
         success: onSuccess,
 

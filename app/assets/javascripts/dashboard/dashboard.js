@@ -11,3 +11,7 @@ transport.onmessage = function(msg) {
 
     $('#dashboard').prepend(msg);
 };
+
+window.onunload = function() {
+    transport.disconnect();
+};
