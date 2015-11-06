@@ -1,4 +1,4 @@
-# Saso
+# Saso [![Build Status](https://magnum.travis-ci.com/bionicrm/saso-web.svg?token=fpiAqsfNZoYfyAxhver7)](https://magnum.travis-ci.com/bionicrm/saso-web)
 
 App updates in real time.
 
