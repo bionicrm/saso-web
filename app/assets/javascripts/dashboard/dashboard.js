@@ -11,8 +11,3 @@ transport.onmessage = function(msg) {
 
     $('#dashboard').prepend(msg);
 };
-
-// FIXME: not working
-window.onunload = function() {
-    transport.disconnect();
-};
