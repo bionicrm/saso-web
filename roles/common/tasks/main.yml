@@ -5,3 +5,5 @@
 - include: extras.yml
 
 - include: ruby.yml
+
+- include: language.yml

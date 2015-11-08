@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'options/index'
+
   root 'home#index'
 
   # dashboard

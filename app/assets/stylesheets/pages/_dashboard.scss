@@ -69,3 +69,29 @@
   color: $gray-lo;
   font: 300 1em/1 $font-default;
 }
+
+////////////////////////
+
+#dashboard {
+  flex-grow: 1;
+}
+
+.panel-link {
+  background-color: transparent;
+  border: none;
+  color: $gray-mid;
+  font-size: 3em;
+  outline: none;
+
+  transition: color 0.2s;
+
+  float: right;
+
+  &:hover {
+    color: $gray-lo;
+  }
+}
+
+.flex {
+  display: flex;
+}
