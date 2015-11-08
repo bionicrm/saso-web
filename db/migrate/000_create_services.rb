@@ -4,6 +4,14 @@ class CreateServices < ActiveRecord::Migration
       t.string :name,
                null: false,
                uniqueness: true
+
+      t.string :proper_name,
+               null: false,
+               uniqueness: true
+
+      t.string :logo_file,
+               null: false,
+               uniqueness: true
     end
   end
 end

@@ -1,2 +1,23 @@
-<h1>Options#index</h1>
-<p>Find me in app/views/options/index.html.erb</p>
+<% content_for :title do 'Options' end %>
+
+<main class="content-container options-container">
+  <aside class="services-menu">
+    <ul class="services-menu-list">
+      <% Service.all.each do |s| %>
+        <li class="services-menu-item">
+          <%= image_tag s.logo_file, class: 'services-menu-item-logo' %>
+          <span class="services-menu-item-name">
+            <%= s.proper_name %>
+          </span>
+        </li>
+      <% end %>
+    </ul>
+  </aside>
+
+  <div class="options">
+  </div>
+</main>
+
+<%# content_for :javascripts do %>
+    <%# javascript_include_tag 'options' %>
+<%# end %>

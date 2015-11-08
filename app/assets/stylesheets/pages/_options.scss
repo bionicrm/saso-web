@@ -1,0 +1,50 @@
+.options-container {
+  display: flex;
+}
+
+.services-menu {
+  //background-color: lightblue;
+  border: 1px solid #CBCBCB;
+
+  margin-right: 0.5em;
+}
+
+.services-menu-list {
+  margin: 0;
+  padding: 0;
+}
+
+.services-menu-item {
+  color: #333;
+  cursor: pointer;
+  font: 400 1em/1.3 $font-default;
+
+  align-items: center;
+  display: flex;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid #DBDBDB;
+  }
+
+  &:hover {
+    background-color: #F5F5F5;
+  }
+
+  > * {
+    margin: 0.5em;
+
+    &:last-child {
+      margin-right: 2em;
+    }
+  }
+}
+
+.services-menu-item-logo {
+  width: 32px;
+}
+
+.options {
+  background-color: lightseagreen;
+
+  flex-grow: 1;
+}

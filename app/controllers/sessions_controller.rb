@@ -16,8 +16,32 @@ class SessionsController < ApplicationController
   def find_or_create_user!
     auth = request.env['omniauth.auth']
 
+    puts auth[:provider]
+
+    case auth[:provider]
+      when 'github'
+        proper_name = 'GitHub'
+        logo_file = 'github.svg'
+      when 'twitter'
+        proper_name = 'Twitter'
+        logo_file = 'twitter.png'
+      when 'google'
+        proper_name = 'Google'
+        logo_file = 'google.png'
+      when 'digitalocean'
+        proper_name = 'DigitalOcean'
+        logo_file = 'digitalocean.png'
+      when 'facebook'
+        proper_name = 'Facebook'
+        logo_file = 'facebook.svg'
+      else
+        return head 422
+    end
+
     # @type [Service]
-    service = Service.select(:id).find_or_create_by!(name: auth[:provider])
+    service = Service.select(:id).find_or_create_by!(name: auth[:provider],
+                                                     proper_name: proper_name,
+                                                     logo_file: logo_file)
 
     # @type [ServiceUser]
     service_user = ServiceUser
@@ -45,6 +69,9 @@ class SessionsController < ApplicationController
       service_user.auth_token.update!(
           new_auth_token.attributes.delete_if { |k, v| v.nil? } )
     end
+
+    puts service_user
+    puts service_user.user
 
     service_user.user
   end

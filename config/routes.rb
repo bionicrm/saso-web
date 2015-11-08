@@ -3,6 +3,8 @@ Rails.application.routes.draw do
 
   root 'home#index'
 
+  get '/options', to: 'options#index'
+
   # dashboard
   get '/dashboard', to: 'dashboard#index'
   get '/live/token', to: 'dashboard#live_token'
