@@ -50,7 +50,7 @@ class DashboardController < ApplicationController
     # generate a new live_token cookie and persist it
 
     token = SecureRandom.base64(LIVE_TOKEN_LENGTH)[0..LIVE_TOKEN_LENGTH - 1]
-    expires_at = 1.hour.from_now
+    expires_at = 2.hour.from_now
 
     LiveToken.create!(user: current_user,
                       token: token,
