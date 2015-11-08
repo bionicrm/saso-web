@@ -9,7 +9,7 @@ Uses Ruby on Rails along with a Vagrant box provisioned with Ansible. See [saso-
 Some things to know for Vagrant setup:
 - When you SSH into the box, run: `rake db:migrate; sudo service postgresql restart; serve`
 - In the host, make a hosts entry to forward `saso.dev` to `10.0.5.7`
-- Visit `saso.dev:3000` in the host to see the page.
+- Visit `saso.dev:3000` in the host to see the page
 
 ### .env
 
