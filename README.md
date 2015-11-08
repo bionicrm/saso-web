@@ -2,7 +2,7 @@
 
 App updates in real time.
 
-Uses Ruby on Rails along with a Vagrant box provisioned with Ansible. See [saso-dash](https://github.com/bionicrm/saso-dash) for the Java websocket server.
+Uses Ruby on Rails along with a Vagrant box provisioned with Ansible. See [saso-dash](https://github.com/bionicrm/saso-dash) for the Java WebSocket server.
 
 ### Vagrant Infos
 
