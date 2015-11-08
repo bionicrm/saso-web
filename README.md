@@ -14,3 +14,7 @@ Some things to know for Vagrant setup:
 ### .env
 
 Copy and paste the given `.env.example` file to `.env` to change environment variables (including OAuth credentials, etc.). Changes to enviroment variables require a server restart to take effect. Simply Ctrl+C in the Vagrant box to stop the server, then run `serve` again.
+
+### Dashboard
+
+See [saso-dash](https://github.com/bionicrm/saso-dash)'s README.md to setup the WebSocket server. Don't worry, it's run locally ;)
