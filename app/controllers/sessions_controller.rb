@@ -16,27 +16,7 @@ class SessionsController < ApplicationController
   def find_or_create_user!
     auth = request.env['omniauth.auth']
 
-    puts auth[:provider]
-
-    case auth[:provider]
-      when 'github'
-        proper_name = 'GitHub'
-        logo_file = 'github.svg'
-      when 'twitter'
-        proper_name = 'Twitter'
-        logo_file = 'twitter.png'
-      when 'google'
-        proper_name = 'Google'
-        logo_file = 'google.png'
-      when 'digitalocean'
-        proper_name = 'DigitalOcean'
-        logo_file = 'digitalocean.png'
-      when 'facebook'
-        proper_name = 'Facebook'
-        logo_file = 'facebook.svg'
-      else
-        return head 422
-    end
+    proper_name, logo_file = get_provider_info auth[:provider].to_s
 
     # @type [Service]
     service = Service.select(:id).find_or_create_by!(name: auth[:provider],
@@ -74,5 +54,22 @@ class SessionsController < ApplicationController
     puts service_user.user
 
     service_user.user
+  end
+
+  def get_provider_info(provider)
+    case provider
+      when 'github'
+        return 'GitHub', 'github.svg'
+      when 'twitter'
+        return 'Twitter', 'twitter.png'
+      when 'google'
+        return 'Google', 'google.png'
+      when 'digitalocean'
+        return 'DigitalOcean', 'digitalocean.png'
+      when 'facebook'
+        return 'Facebook', 'facebook.svg'
+      else
+        raise "Unknown provider '#{provider}'"
+    end
   end
 end
