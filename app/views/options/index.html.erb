@@ -15,6 +15,9 @@
   </aside>
 
   <div class="options">
+    <% Service.all.each do |s| %>
+        <%= render "options/partials/services/#{s.name}.html.erb" %>
+    <% end %>
   </div>
 </main>
 
